@@ -77,7 +77,7 @@ mod tests {
     #[should_panic]
     fn test_push_panic() {
         let mut stack = Stack::new();
-        for i in 0..=stack.stack.len() {
+        for _ in 0..=stack.stack.len() {
             stack.push(3).unwrap();
         }
     }
