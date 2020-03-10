@@ -1,6 +1,6 @@
 /// Struct representing the stack of a chip-8 machine
 pub struct Stack {
-    stack: [u16; 16],
+    stack: [usize; 16],
     stack_pointer: usize,
 }
 
@@ -15,7 +15,7 @@ impl Stack {
 
     /// Pushes a value onto the top of the stack.
     /// If the stack is full, StackError::Full is returned
-    pub fn push(&mut self, val: u16) -> Result<(), StackError> {
+    pub fn push(&mut self, val: usize) -> Result<(), StackError> {
         if self.stack_pointer >= self.stack.len() {
             return Err(StackError::Full);
         }
@@ -26,7 +26,7 @@ impl Stack {
 
     /// Pops the value on the top of the stack.
     /// If the stack is empty, StackError::Empty is returned
-    pub fn pop(&mut self) -> Result<u16, StackError> {
+    pub fn pop(&mut self) -> Result<usize, StackError> {
         if self.stack_pointer <= 0 {
             return Err(StackError::Empty);
         }
@@ -36,7 +36,7 @@ impl Stack {
 
     /// Returns the value on the top of the stack if is not empty
     /// Otherwise, it returns none
-    pub fn top(&self) -> Option<u16> {
+    pub fn top(&self) -> Option<usize> {
         if self.stack_pointer <= 0 {
             return None;
         }
@@ -58,9 +58,9 @@ mod tests {
     fn test_push_top_pop() {
         let mut stack = Stack::new();
         assert_eq!(None, stack.top());
-        stack.push(3);
+        stack.push(3).unwrap();
         assert_eq!(Some(3), stack.top());
-        stack.push(5);
+        stack.push(5).unwrap();
         assert_eq!(Some(5), stack.top());
         assert_eq!(Ok(5), stack.pop());
         assert_eq!(Some(3), stack.top());

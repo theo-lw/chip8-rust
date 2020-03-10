@@ -12,8 +12,8 @@ use timers::Timers;
 
 /// Struct representing the state of a Chip-8 machine
 pub struct State {
-    ram: Memory,
-    registers: Registers,
+    pub ram: Memory,
+    pub registers: Registers,
     pub timers: Timers,
     pub stack: Stack,
     pub program_counter: usize,
