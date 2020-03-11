@@ -1,4 +1,5 @@
 pub mod byte;
+pub mod iregister;
 pub mod nibble;
 pub mod tribble;
 pub mod vregister;
