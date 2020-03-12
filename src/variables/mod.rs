@@ -1,11 +1,11 @@
 pub mod byte;
+pub mod delay_timer;
 pub mod iregister;
+pub mod memory_at;
 pub mod nibble;
+pub mod sound_timer;
 pub mod tribble;
 pub mod vregister;
-pub mod sound_timer;
-pub mod delay_timer;
-pub mod memory_at;
 
 use super::chip8::State;
 

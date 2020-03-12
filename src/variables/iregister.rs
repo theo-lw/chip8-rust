@@ -1,4 +1,4 @@
-use super::{Read, Write, State};
+use super::{Read, State, Write};
 
 /// Represents the I register
 pub struct I;

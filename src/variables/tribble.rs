@@ -9,7 +9,9 @@ pub struct B12(pub B4, pub B4, pub B4);
 /// Conversion into u16
 impl From<B12> for u16 {
     fn from(val: B12) -> u16 {
-        (u16::from(u8::from(val.0)) << 8) + (u16::from(u8::from(val.1)) << 4) + u16::from(u8::from(val.2))
+        (u16::from(u8::from(val.0)) << 8)
+            + (u16::from(u8::from(val.1)) << 4)
+            + u16::from(u8::from(val.2))
     }
 }
 

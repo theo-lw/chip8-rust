@@ -1,9 +1,9 @@
-use super::{Read, Write, State};
+use super::{Read, State, Write};
 
 /// Struct representing the memory at a location
-pub struct AT<T: Read<usize>> (T);
+pub struct AT<T: Read<usize>>(T);
 
-/// We should be able to read a u8 from memory 
+/// We should be able to read a u8 from memory
 impl<T: Read<usize>> Read<u8> for AT<T> {
     fn read(&self, state: &State) -> u8 {
         state.memory.ram[self.0.read(state)]
@@ -21,11 +21,7 @@ impl<'a, T: Read<usize>> Write<'a, u8> for AT<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::variables::{
-        iregister::I,
-        tribble::B12,
-        nibble::B4
-    };
+    use crate::variables::{iregister::I, nibble::B4, tribble::B12};
 
     #[test]
     fn test_read_u8() {

@@ -1,4 +1,4 @@
-use super::{Read, Write, State};
+use super::{Read, State, Write};
 
 /// Struct representing the sound timer
 pub struct ST;

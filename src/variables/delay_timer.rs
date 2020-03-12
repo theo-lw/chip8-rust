@@ -1,4 +1,4 @@
-use super::{Read, Write, State};
+use super::{Read, State, Write};
 
 /// Struct representing the delay timer
 pub struct DT;
