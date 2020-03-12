@@ -1,5 +1,5 @@
-use super::{Read, Write};
 use super::State;
+use super::{Read, Write};
 
 /// Struct representing the contents at a v-register
 /// There are only 16 v-registers, numbered from 0..16
@@ -25,10 +25,7 @@ impl<'a, T: Read<usize>> Write<'a, u8> for v<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::variables::{
-        nibble::b4,
-        tribble::b12
-    };
+    use crate::variables::{nibble::b4, tribble::b12};
 
     #[test]
     fn test_read_v_register() {

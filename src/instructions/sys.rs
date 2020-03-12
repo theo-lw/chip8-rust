@@ -2,7 +2,7 @@ use super::Instruction;
 use super::State;
 use crate::variables::Read;
 
-pub struct SYS<T: Read<usize>>(T); 
+pub struct SYS<T: Read<usize>>(T);
 
 impl<T: Read<usize>> Instruction for SYS<T> {
     fn execute(&self, state: &mut State) {
