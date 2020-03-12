@@ -16,7 +16,7 @@ before_script:
   - rustup component add rustfmt
 
 script:
-  - cargo fmt -- --write-mode=diff
+  - cargo fmt -- --check
   - cargo clippy --all-targets --all-features
   - cargo build --verbose
   - cargo test --verbose

@@ -3,7 +3,7 @@ pub mod instructions;
 pub mod variables;
 
 fn main() {
-    println!("Hello world!");
+    println!("{}", "hello world!");
 }
 
 /*
