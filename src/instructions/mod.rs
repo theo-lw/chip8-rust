@@ -1,6 +1,7 @@
 mod call;
 mod jp;
 mod ret;
+mod se;
 mod sys;
 
 use super::chip8::State;
