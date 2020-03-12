@@ -18,13 +18,13 @@ script:
 addons:
   apt:
     packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-      - cmake
-      - gcc
-      - binutils-dev
-      - libiberty-dev
+    - libcurl4-openssl-dev
+    - libelf-dev
+    - libdw-dev
+    - cmake
+    - gcc
+    - binutils-dev
+    - libiberty-dev
 after_success: |
   [ $TRAVIS_BRANCH = master ] &&
   [ $TRAVIS_PULL_REQUEST = false ] &&
@@ -46,7 +46,6 @@ after_success: |
   for file in target/debug/examplerust-*; do [ -x "${file}" ] || continue; mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
   bash <(curl -s https://codecov.io/bash) &&
   echo "Uploaded code coverage"
-
 env:
   global:
-  - secure: pU+K9DuRawOFE3FLFMiuxUO5eTqCl+lMK/y51AKllAYWmGIvoRNw8Oj1XtxuCHJopOKigGdLlfi6bKXiVn4X23dF6BzRzKPRE3CJ/tP2pN0oj2EUo7nrBqNt4Q8Tk5wuWv6MTJjbCHQlh5SPSYIS3SiTshS6tQb/9b5mpT551p/GEl2xs+l/r078jFcIFJJqVTjz8bpIzMJ3mOruXzq8GaPsa1zO5sEdaPjQPYYhL7poLi3KVncaGvtlAsycDDkjTPY9OF8aVSqnFqegPNKRM8Cbu+zQmsc2diS2vLhbYarauqL525yowJTwptR9ZjPGMIbCLOVOcDHUmG9Six3KVcdx4Y7nQm7H1wjP7F9yMqix/EKiVrVQ1VLK85MwtOwNREzWeDmDl7BpF5C2adKPAGCV8VzFFSwdvgXcSpcl/tweAk4p9qRbcTg8t89hgiZF9ZxAjXFU6pnJUr1Jc9dLJSc01muDBYYRVNZPS43f0WvhsMADrJUdSGOCXP7A4uCmr0UMIfnj5MehUivU+kGMb6LUVVIt/Ab+duDt7OLPjAlGXcLpulaGiCS2wqCj7xMAbjFEc5oIeIssT0e3wqV72b2ClGJkfG25uiFifofqZO38vd3kUo7pJvBz8pYhSo/73bLSLUHciNdI4MYMi57JxQlSBGzPoeTBR6vBweiYLBQ=
+    secure: nSSrvm3u2QPwdKL8RA6Aqq+MTSJk+QKtZbWhi68PGI7wvWrx0qDawMELQqwY2ptpqhDqFdIibhZ25Q5OxaSdKy6PfvRsZet4xDic2V6FAXWj8AjsZxmR0j3ZMbB0kxHrNxFO7eoXbjaAi0vY35EMWK+DlcDvgnmgY3KloanbqJzTiiZznwMLkCTFiKTEhYAcKdWOQYgBzTKG8zE/VGGcofv3+h7FZnrofpy8/VmLk9ZkdJpnJub+zyj0ImRb8ZC8brDRbUxNf8ozFkGUic7dUdzHK0qAy9bbwXo8W66OEimHOKArNBME0MWVAgz+ayRpEXakpf8njbwwCyDsgO5JxAHXjCp3gto8UnHgEYSxkrwp68I5W+adUDlfljigEBX9SHozWJYuc2BEAYT7VE6z1UTr6cfH75WZ/CKLDd7WBZXUfn5roXsAPDg58Mh6j8bNdXknFhRt0qSnPq+d+LmSJ8dkVv8HjYD0EKvOOpb/tyIC2qvXVdJgBO0f+SEleQC1TOYBzfJfDCsNVDrwQE9rPnJOXQbPlS1t8E5PKS4SLFF49bGS7jW1bn1yfI6tdv2hi4XyEMC42HzzezTLoeo6T7KxSCg0KuVLke+jseRKoMMLX69s1qMLO0t6gscHTsH1W9hsaxwRTHQFv7Piuaupsqtr8eeROmtRnPa6AoUhXnc=
