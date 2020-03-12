@@ -1,7 +1,9 @@
 mod call;
 mod jp;
+mod ld;
 mod ret;
 mod se;
+mod sne;
 mod sys;
 
 use super::chip8::State;
@@ -10,8 +12,8 @@ use super::chip8::State;
 ///
 /// Defines one method, `execute(&self, &mut State)` because
 /// instructions should be able to be executed in the context of a State struct
-pub trait Instruction {
-    fn execute(&self, state: &mut State);
+pub trait Instruction<'a> {
+    fn execute(&self, state: &'a mut State);
 }
 
 pub fn parse() {}

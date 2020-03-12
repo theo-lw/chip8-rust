@@ -4,7 +4,7 @@ use crate::variables::Read;
 /// Represents the CALL instruction (call subroutine at CALL.0)
 pub struct CALL<T: Read<usize>>(pub T);
 
-impl<T: Read<usize>> Instruction for CALL<T> {
+impl<'a, T: Read<usize>> Instruction<'a> for CALL<T> {
     fn execute(&self, state: &mut State) {
         state.stack.push(state.program_counter).unwrap();
         state.program_counter = self.0.read(state);

@@ -4,7 +4,7 @@ use crate::variables::Read;
 /// Represents the JP instruction (jump to the location at JP.0)
 pub struct JP<T: Read<usize>>(pub T);
 
-impl<T: Read<usize>> Instruction for JP<T> {
+impl<'a, T: Read<usize>> Instruction<'a> for JP<T> {
     fn execute(&self, state: &mut State) {
         state.program_counter = self.0.read(state);
     }
