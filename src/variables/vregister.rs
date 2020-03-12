@@ -15,6 +15,14 @@ impl<T: Read<usize>> Read<u8> for V<T> {
     }
 }
 
+/// We should be able to read the value of a v-register as a u16
+impl<T: Read<usize>> Read<u16> for V<T> {
+    fn read(&self, state: &State) -> u16 {
+        u16::from(state.registers.v_registers[self.0.read(state)])
+    }
+}
+
+/// We should be able to write a u8 to a vregister
 impl<'a, T: Read<usize>> Write<'a, u8> for V<T> {
     fn write(&self, state: &'a mut State) -> &'a mut u8 {
         &mut state.registers.v_registers[self.0.read(state)]
@@ -27,17 +35,26 @@ mod tests {
     use crate::variables::{nibble::B4, tribble::B12};
 
     #[test]
-    fn test_read_v_register() {
+    fn test_read_v_register_u8() {
         let mut state = State::new(&[]);
         state.registers.v_registers[3] = 4;
-        assert_eq!(V(B4(3)).read(&state), 4);
+        let result: u8 = V(B4(3)).read(&state);
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn test_read_v_register_u16() {
+        let mut state = State::new(&[]);
+        state.registers.v_registers[12] = 255;
+        let result: u16 = V(B4(12)).read(&state);
+        assert_eq!(result, 255);
     }
 
     #[test]
     #[should_panic]
     fn test_v_register_out_of_range() {
         let state = State::new(&[]);
-        V(B12(B4(0b1111), B4(0b1111), B4(0b0000))).read(&state);
+        let _: u8 = V(B12(B4(0b1111), B4(0b1111), B4(0b0000))).read(&state);
     }
 
     #[test]

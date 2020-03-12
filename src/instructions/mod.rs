@@ -1,6 +1,8 @@
+mod add;
 mod call;
 mod jp;
 mod ld;
+mod or;
 mod ret;
 mod se;
 mod sne;

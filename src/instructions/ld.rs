@@ -3,15 +3,27 @@ use crate::variables::{Read, Write};
 use std::marker::PhantomData;
 
 /// Represents the LD instruction (loads the value of LD.1 into LD.0)
-pub struct LD<'a, S, T: Write<'a, S>, U: Read<S>>(T, U, PhantomData<&'a S>);
+pub struct LD<'a, S, T, U>(T, U, PhantomData<&'a S>)
+where
+    T: Write<'a, S>,
+    U: Read<S>;
 
-impl<'a, S, T: Write<'a, S>, U: Read<S>> LD<'a, S, T, U> {
+impl<'a, S, T, U> LD<'a, S, T, U>
+where
+    T: Write<'a, S>,
+    U: Read<S>,
+{
+    /// Convenience constructor to let us create LD without typing PhantomData
     pub fn new(left: T, right: U) -> Self {
         LD(left, right, PhantomData)
     }
 }
 
-impl<'a, S, T: Write<'a, S>, U: Read<S>> Instruction<'a> for LD<'a, S, T, U> {
+impl<'a, S, T, U> Instruction<'a> for LD<'a, S, T, U>
+where
+    T: Write<'a, S>,
+    U: Read<S>,
+{
     fn execute(&self, state: &'a mut State) {
         *self.0.write(state) = self.1.read(state);
     }
