@@ -13,12 +13,12 @@ impl<T: Read<usize>> Instruction for SYS<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::variables::{nibble::b4, tribble::b12};
+    use crate::variables::{nibble::B4, tribble::B12};
 
     #[test]
     fn test_sys() {
         let mut state = State::new(&[]);
-        let sys = SYS(b12(b4(0b1011), b4(0b1001), b4(0b0010)));
+        let sys = SYS(B12(B4(0b1011), B4(0b1001), B4(0b0010)));
         sys.execute(&mut state);
         assert_eq!(state.program_counter, 0b1011_1001_0010);
     }

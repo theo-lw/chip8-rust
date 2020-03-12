@@ -3,6 +3,7 @@ pub mod iregister;
 pub mod nibble;
 pub mod tribble;
 pub mod vregister;
+pub mod sound_timer;
 
 use super::chip8::State;
 
