@@ -1,22 +1,28 @@
 language: rust
-
 cache: cargo
-
 rust:
-  - stable
-  - beta
-  - nightly
-
+- stable
+- beta
+- nightly
 matrix:
   allow_failures:
-    - rust: nightly
-
+  - rust: nightly
 before_script:
-  - rustup component add clippy
-  - rustup component add rustfmt
-
+- rustup component add clippy
+- rustup component add rustfmt
 script:
-  - cargo fmt -- --check
-  - cargo clippy --all-targets --all-features
-  - cargo build --verbose
-  - cargo test --verbose
+- cargo fmt -- --check
+- cargo clippy --all-targets --all-features
+- cargo build --verbose
+- cargo test --verbose
+after_success: |
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  cargo doc &&
+  echo "<meta http-equiv=refresh content=0;url=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f 2`/index.html>" > target/doc/index.html &&
+  sudo pip install ghp-import &&
+  ghp-import -n target/doc &&
+  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+env:
+  global:
+  - secure: pU+K9DuRawOFE3FLFMiuxUO5eTqCl+lMK/y51AKllAYWmGIvoRNw8Oj1XtxuCHJopOKigGdLlfi6bKXiVn4X23dF6BzRzKPRE3CJ/tP2pN0oj2EUo7nrBqNt4Q8Tk5wuWv6MTJjbCHQlh5SPSYIS3SiTshS6tQb/9b5mpT551p/GEl2xs+l/r078jFcIFJJqVTjz8bpIzMJ3mOruXzq8GaPsa1zO5sEdaPjQPYYhL7poLi3KVncaGvtlAsycDDkjTPY9OF8aVSqnFqegPNKRM8Cbu+zQmsc2diS2vLhbYarauqL525yowJTwptR9ZjPGMIbCLOVOcDHUmG9Six3KVcdx4Y7nQm7H1wjP7F9yMqix/EKiVrVQ1VLK85MwtOwNREzWeDmDl7BpF5C2adKPAGCV8VzFFSwdvgXcSpcl/tweAk4p9qRbcTg8t89hgiZF9ZxAjXFU6pnJUr1Jc9dLJSc01muDBYYRVNZPS43f0WvhsMADrJUdSGOCXP7A4uCmr0UMIfnj5MehUivU+kGMb6LUVVIt/Ab+duDt7OLPjAlGXcLpulaGiCS2wqCj7xMAbjFEc5oIeIssT0e3wqV72b2ClGJkfG25uiFifofqZO38vd3kUo7pJvBz8pYhSo/73bLSLUHciNdI4MYMi57JxQlSBGzPoeTBR6vBweiYLBQ=
