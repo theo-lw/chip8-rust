@@ -12,7 +12,7 @@ use timers::Timers;
 
 /// Struct representing the state of a Chip-8 machine
 pub struct State {
-    pub ram: Memory,
+    pub memory: Memory,
     pub registers: Registers,
     pub timers: Timers,
     pub stack: Stack,
@@ -23,7 +23,7 @@ impl State {
     /// Creates a new State struct
     pub fn new(program: &[u8]) -> State {
         State {
-            ram: Memory::new(program),
+            memory: Memory::new(program),
             registers: Registers::new(),
             timers: Timers::new(),
             stack: Stack::new(),

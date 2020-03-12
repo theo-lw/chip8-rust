@@ -4,6 +4,8 @@ pub mod nibble;
 pub mod tribble;
 pub mod vregister;
 pub mod sound_timer;
+pub mod delay_timer;
+pub mod memory_at;
 
 use super::chip8::State;
 
