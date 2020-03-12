@@ -1,6 +1,7 @@
 use super::Instruction;
 use super::State;
 
+/// Represents the RET instruction (returns from subroutine)
 pub struct RET;
 
 impl Instruction for RET {

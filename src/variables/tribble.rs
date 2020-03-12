@@ -25,7 +25,7 @@ impl Read<usize> for B12 {
 /// We should be able to read a u16 from a B12 using the conversion
 impl Read<u16> for u16 {
     fn read(&self, _: &State) -> u16 {
-        u16::from(*self)
+        *self
     }
 }
 
