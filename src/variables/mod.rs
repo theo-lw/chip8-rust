@@ -12,6 +12,6 @@ pub trait Read<T> {
 }
 
 /// Trait for variables that can be written to chip-8's state
-pub trait Write<T> {
-    fn write(&self, to: State) -> &mut T;
+pub trait Write<'a, T> {
+    fn write(&self, to: &'a mut State) -> &'a mut T;
 }

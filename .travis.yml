@@ -11,11 +11,12 @@ matrix:
   allow_failures:
     - rust: nightly
 
-install:
-  - (cargo install rustfmt || true)
-  - PATH=$PATH:/home/travis/.cargo/bin
+before_script:
+  - rustup component add clippy --toolchain=nightly || cargo install --git https://github.com/rust-lang/rust-clippy/ --force clippy
+  - rustup component add rustfmt
 
 script:
   - cargo fmt -- --write-mode=diff
+  - cargo clippy --all-targets --all-features
   - cargo build --verbose
   - cargo test --verbose

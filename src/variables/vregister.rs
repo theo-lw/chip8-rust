@@ -1,6 +1,4 @@
-use super::nibble::b4;
-use super::tribble::b12;
-use super::Read;
+use super::{Read, Write};
 use super::State;
 
 /// Struct representing the contents at a v-register
@@ -18,9 +16,19 @@ impl<T: Read<usize>> Read<u8> for v<T> {
     }
 }
 
+impl<'a, T: Read<usize>> Write<'a, u8> for v<T> {
+    fn write(&self, state: &'a mut State) -> &'a mut u8 {
+        &mut state.registers.v_registers[self.0.read(state)]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::variables::{
+        nibble::b4,
+        tribble::b12
+    };
 
     #[test]
     fn test_read_v_register() {
@@ -34,5 +42,12 @@ mod tests {
     fn test_v_register_out_of_range() {
         let state = State::new(&[]);
         v(b12(b4(0b1111), b4(0b1111), b4(0b0000))).read(&state);
+    }
+
+    #[test]
+    fn test_write_v_register() {
+        let mut state = State::new(&[]);
+        *v(b4(10)).write(&mut state) = 2;
+        assert_eq!(state.registers.v_registers[10], 2);
     }
 }

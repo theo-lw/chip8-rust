@@ -27,7 +27,7 @@ impl Stack {
     /// Pops the value on the top of the stack.
     /// If the stack is empty, StackError::Empty is returned
     pub fn pop(&mut self) -> Result<usize, StackError> {
-        if self.stack_pointer <= 0 {
+        if self.stack_pointer == 0 {
             return Err(StackError::Empty);
         }
         self.stack_pointer -= 1;
@@ -37,7 +37,7 @@ impl Stack {
     /// Returns the value on the top of the stack if is not empty
     /// Otherwise, it returns none
     pub fn top(&self) -> Option<usize> {
-        if self.stack_pointer <= 0 {
+        if self.stack_pointer == 0 {
             return None;
         }
         Some(self.stack[self.stack_pointer - 1])
