@@ -1,4 +1,5 @@
 /// Struct representing the stack of a chip-8 machine
+#[derive(Default)]
 pub struct Stack {
     stack: [usize; 16],
     stack_pointer: usize,
@@ -7,10 +8,7 @@ pub struct Stack {
 impl Stack {
     /// Creates a new Stack struct with all values initialized to zero
     pub fn new() -> Stack {
-        Stack {
-            stack: [0; 16],
-            stack_pointer: 0,
-        }
+        Default::default()
     }
 
     /// Pushes a value onto the top of the stack.

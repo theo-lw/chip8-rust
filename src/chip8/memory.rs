@@ -17,7 +17,7 @@ impl Memory {
             PROGRAM_START..PROGRAM_START + program.len(),
             program.iter().cloned(),
         );
-        Memory { ram: ram }
+        Memory { ram }
     }
 }
 

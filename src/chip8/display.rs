@@ -15,7 +15,7 @@ impl Display {
     /// Returns true if the pixel at (x, y) is turned from active to inactive
     pub fn xor(&mut self, x: usize, y: usize, val: bool) -> bool {
         let result = self.pixels[y][x] & val;
-        self.pixels[y][x] = self.pixels[y][x] ^ val;
+        self.pixels[y][x] ^= val;
         result
     }
 }

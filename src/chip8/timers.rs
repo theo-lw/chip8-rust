@@ -1,16 +1,13 @@
 /// Struct representing the timers of a chip-8 machine
+#[derive(Default)]
 pub struct Timers {
     pub delay_timer: u8,
     pub sound_timer: u8,
 }
 
 impl Timers {
-    /// Creates a new Timers struct with all values initialized to zero
     pub fn new() -> Timers {
-        Timers {
-            delay_timer: 0,
-            sound_timer: 0,
-        }
+        Default::default()
     }
 
     /// Decrements each timer if they are positive
