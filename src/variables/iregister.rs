@@ -13,7 +13,7 @@ impl Read<u16> for I {
 /// We should be able to read a usize from the I register
 impl Read<usize> for I {
     fn read(&self, state: &State) -> usize {
-        usize::from(state.registers.i_register)
+        usize::from(Read::<u16>::read(self, state))
     }
 }
 

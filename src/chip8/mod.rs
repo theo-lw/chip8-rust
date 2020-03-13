@@ -4,6 +4,7 @@ mod registers;
 mod stack;
 mod timers;
 
+use display::Display;
 use memory::Memory;
 use memory::PROGRAM_START;
 use registers::Registers;
@@ -12,6 +13,7 @@ use timers::Timers;
 
 /// Struct representing the state of a Chip-8 machine
 pub struct State {
+    pub display: Display,
     pub memory: Memory,
     pub registers: Registers,
     pub timers: Timers,
@@ -23,6 +25,7 @@ impl State {
     /// Creates a new State struct
     pub fn new(program: &[u8]) -> State {
         State {
+            display: Display::new(),
             memory: Memory::new(program),
             registers: Registers::new(),
             timers: Timers::new(),

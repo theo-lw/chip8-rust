@@ -1,10 +1,8 @@
 use super::{Instruction, State};
+use crate::overflow_op;
 use crate::variables::{Read, Write};
 use std::marker::PhantomData;
 use std::ops::Sub;
-
-#[macro_use]
-use crate::overflow_op;
 
 /// Represents the SUB instruction (sets SUB.0 = SUB.0 + SUB.1)
 /// Note that this does NOT set any flags on integer overflow

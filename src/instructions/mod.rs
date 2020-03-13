@@ -1,12 +1,16 @@
 mod add;
 mod and;
 mod call;
+mod drw;
 mod helpers;
 mod jp;
 mod ld;
 mod or;
 mod ret;
+mod rnd;
 mod se;
+mod shl;
+mod shr;
 mod sne;
 mod sub;
 mod sys;

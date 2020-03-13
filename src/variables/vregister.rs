@@ -18,7 +18,14 @@ impl<T: Read<usize>> Read<u8> for V<T> {
 /// We should be able to read the value of a v-register as a u16
 impl<T: Read<usize>> Read<u16> for V<T> {
     fn read(&self, state: &State) -> u16 {
-        u16::from(state.registers.v_registers[self.0.read(state)])
+        u16::from(Read::<u8>::read(self, state))
+    }
+}
+
+/// We should be able to read the value of a v-register as a usize
+impl<T: Read<usize>> Read<usize> for V<T> {
+    fn read(&self, state: &State) -> usize {
+        usize::from(Read::<u8>::read(self, state))
     }
 }
 
@@ -48,6 +55,14 @@ mod tests {
         state.registers.v_registers[12] = 255;
         let result: u16 = V(B4(12)).read(&state);
         assert_eq!(result, 255);
+    }
+
+    #[test]
+    fn test_read_v_register_usize() {
+        let mut state = State::new(&[]);
+        state.registers.v_registers[0] = 128;
+        let result: usize = V(B4(0)).read(&state);
+        assert_eq!(result, 128);
     }
 
     #[test]
