@@ -3,17 +3,20 @@ use crate::variables::{Read, Write};
 use std::marker::PhantomData;
 use std::ops::Add;
 
+#[macro_use]
+use crate::overflow_op;
+
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1)
 /// Note that this does NOT set any flags on integer overflow
 pub struct ADD<'a, S, T, U>(T, U, PhantomData<&'a S>)
 where
-    S: Add<Output = S>,
+    S: OverflowingAdd,
     T: Write<'a, S> + Read<S>,
     U: Read<S>;
 
 impl<'a, S, T, U> ADD<'a, S, T, U>
 where
-    S: Add<Output = S>,
+    S: OverflowingAdd,
     T: Write<'a, S> + Read<S>,
     U: Read<S>,
 {
@@ -25,26 +28,29 @@ where
 
 impl<'a, S, T, U> Instruction<'a> for ADD<'a, S, T, U>
 where
-    S: Add<Output = S>,
+    S: OverflowingAdd,
     T: Write<'a, S> + Read<S>,
     U: Read<S>,
 {
     fn execute(&self, state: &'a mut State) {
-        *self.0.write(state) = self.0.read(state) + self.1.read(state);
+        let (result, _): (S, bool) = self.0.read(state).overflowing_add(&self.1.read(state));
+        *self.0.write(state) = result;
     }
 }
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1, sets VF = carry).
 /// This is similar to the ADD struct. The difference is in how they handle integer overflow
-pub struct ADDF<'a, T, U>(T, U, PhantomData<&'a u8>)
+pub struct ADDF<'a, S, T, U>(T, U, PhantomData<&'a S>)
 where
-    T: Write<'a, u8> + Read<u8>,
-    U: Read<u8>;
+    S: OverflowingAdd,
+    T: Write<'a, S> + Read<S>,
+    U: Read<S>;
 
-impl<'a, T, U> ADDF<'a, T, U>
+impl<'a, S, T, U> ADDF<'a, S, T, U>
 where
-    T: Write<'a, u8> + Read<u8>,
-    U: Read<u8>,
+    S: OverflowingAdd,
+    T: Write<'a, S> + Read<S>,
+    U: Read<S>,
 {
     /// Convenience constructor to let us create ADDF without typing PhantomData
     pub fn new(left: T, right: U) -> Self {
@@ -52,17 +58,31 @@ where
     }
 }
 
-impl<'a, T, U> Instruction<'a> for ADDF<'a, T, U>
+impl<'a, S, T, U> Instruction<'a> for ADDF<'a, S, T, U>
 where
-    T: Write<'a, u8> + Read<u8>,
-    U: Read<u8>,
+    S: OverflowingAdd,
+    T: Write<'a, S> + Read<S>,
+    U: Read<S>,
 {
     fn execute(&self, state: &'a mut State) {
-        let (result, carry): (u8, bool) = self.0.read(state).overflowing_add(self.1.read(state));
+        let (result, carry): (S, bool) = self.0.read(state).overflowing_add(&self.1.read(state));
         state.registers.v_registers[0xF] = u8::from(carry);
         *self.0.write(state) = result;
     }
 }
+
+/// Trait for types that can perform overflowing addition
+///
+/// The first element in the returned tuple should be the result of
+/// performing wrapped addition on the left-hand side and the right-hand side
+///
+/// The second element should be true if an overflow occurred, false otherwise
+pub trait OverflowingAdd: Sized + Add<Output = Self> {
+    fn overflowing_add(&self, rhs: &Self) -> (Self, bool);
+}
+
+overflow_op!(OverflowingAdd, overflowing_add, u8);
+overflow_op!(OverflowingAdd, overflowing_add, u16);
 
 #[cfg(test)]
 mod tests {
