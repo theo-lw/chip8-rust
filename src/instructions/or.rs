@@ -1,35 +1,19 @@
 use super::{Instruction, State};
 use crate::variables::{Read, Write};
-use std::marker::PhantomData;
-use std::ops::BitOr;
 
 /// Represents the OR instruction (sets OR.0 = OR.0 | OR.1)
-pub struct OR<'a, S, T, U>(T, U, PhantomData<&'a S>)
+pub struct OR<T, U>(pub T, pub U)
 where
-    S: BitOr<Output = S>,
-    T: Write<'a, S> + Read<S>,
-    U: Read<S>;
+    T: Write<u8> + Read<u8>,
+    U: Read<u8>;
 
-impl<'a, S, T, U> OR<'a, S, T, U>
+impl<T, U> Instruction for OR<T, U>
 where
-    S: BitOr<Output = S>,
-    T: Write<'a, S> + Read<S>,
-    U: Read<S>,
+    T: Write<u8> + Read<u8>,
+    U: Read<u8>,
 {
-    /// Convenience constructor to let us create OR without typing PhantomData
-    pub fn new(left: T, right: U) -> Self {
-        OR(left, right, PhantomData)
-    }
-}
-
-impl<'a, S, T, U> Instruction<'a> for OR<'a, S, T, U>
-where
-    S: BitOr<Output = S>,
-    T: Write<'a, S> + Read<S>,
-    U: Read<S>,
-{
-    fn execute(&self, state: &'a mut State) {
-        *self.0.write(state) = self.0.read(state) | self.1.read(state);
+    fn execute(&self, state: &mut State) {
+        self.0.write(state, self.0.read(state) | self.1.read(state));
     }
 }
 
@@ -43,7 +27,7 @@ mod tests {
         let mut state = State::mock(&[]);
         state.registers.v_registers[1] = 0b1011_0001;
         state.registers.v_registers[13] = 0b1000_0010;
-        let or = OR::new(V(B4(1)), V(B4(13)));
+        let or = OR(V(B4(1)), V(B4(13)));
         or.execute(&mut state);
         assert_eq!(state.registers.v_registers[13], 0b1000_0010);
         assert_eq!(state.registers.v_registers[1], 0b1011_0011);

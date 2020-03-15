@@ -11,9 +11,9 @@ impl Read<u8> for ST {
 }
 
 /// We should be able to write a u8 to the sound timer
-impl<'a> Write<'a, u8> for ST {
-    fn write(&self, state: &'a mut State) -> &'a mut u8 {
-        &mut state.timers.sound_timer
+impl Write<u8> for ST {
+    fn write(&self, state: &mut State, val: u8) {
+        state.timers.sound_timer = val
     }
 }
 
@@ -33,7 +33,7 @@ mod tests {
     fn test_write_u8() {
         let st = ST;
         let mut state = State::mock(&[]);
-        *st.write(&mut state) = 200;
+        st.write(&mut state, 200);
         assert_eq!(state.timers.sound_timer, 200);
     }
 }

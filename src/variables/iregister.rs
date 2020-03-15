@@ -18,9 +18,9 @@ impl Read<usize> for I {
 }
 
 /// We should be able to write a u16 to the I register
-impl<'a> Write<'a, u16> for I {
-    fn write(&self, state: &'a mut State) -> &'a mut u16 {
-        &mut state.registers.i_register
+impl Write<u16> for I {
+    fn write(&self, state: &mut State, val: u16) {
+        state.registers.i_register = val;
     }
 }
 
@@ -50,7 +50,7 @@ mod tests {
     fn test_write_u16() {
         let i = I;
         let mut state = State::mock(&[]);
-        *i.write(&mut state) = 9;
+        i.write(&mut state, 9);
         assert_eq!(state.registers.i_register, 9);
     }
 }

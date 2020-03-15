@@ -30,9 +30,9 @@ impl<T: Read<usize>> Read<usize> for V<T> {
 }
 
 /// We should be able to write a u8 to a vregister
-impl<'a, T: Read<usize>> Write<'a, u8> for V<T> {
-    fn write(&self, state: &'a mut State) -> &'a mut u8 {
-        &mut state.registers.v_registers[self.0.read(state)]
+impl<T: Read<usize>> Write<u8> for V<T> {
+    fn write(&self, state: &mut State, val: u8) {
+        state.registers.v_registers[self.0.read(state)] = val;
     }
 }
 
@@ -75,7 +75,7 @@ mod tests {
     #[test]
     fn test_write_v_register() {
         let mut state = State::mock(&[]);
-        *V(B4(10)).write(&mut state) = 2;
+        V(B4(10)).write(&mut state, 2);
         assert_eq!(state.registers.v_registers[10], 2);
     }
 }

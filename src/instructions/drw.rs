@@ -8,13 +8,13 @@ where
     T: Read<usize>,
     U: Read<usize>;
 
-impl<'a, S, T, U> Instruction<'a> for DRW<S, T, U>
+impl<S, T, U> Instruction for DRW<S, T, U>
 where
     S: Read<usize>,
     T: Read<usize>,
     U: Read<usize>,
 {
-    fn execute(&self, state: &'a mut State) {
+    fn execute(&self, state: &mut State) {
         let x = self.0.read(state);
         let y = self.1.read(state);
         let mut vf = false;

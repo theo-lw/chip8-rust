@@ -4,7 +4,7 @@ use super::State;
 /// Represents the RET instruction (returns from subroutine)
 pub struct RET;
 
-impl<'a> Instruction<'a> for RET {
+impl<'a> Instruction for RET {
     fn execute(&self, state: &mut State) {
         state.program_counter = state.stack.pop().unwrap();
     }

@@ -4,7 +4,7 @@ use crate::variables::Read;
 /// Represents the SE instruction (skip the next instruction if SE.0 == SE.1)
 pub struct SE<T: Read<u8>, U: Read<u8>>(pub T, pub U);
 
-impl<'a, T: Read<u8>, U: Read<u8>> Instruction<'a> for SE<T, U> {
+impl<T: Read<u8>, U: Read<u8>> Instruction for SE<T, U> {
     fn execute(&self, state: &mut State) {
         if self.0.read(state) == self.1.read(state) {
             state.program_counter += 2;

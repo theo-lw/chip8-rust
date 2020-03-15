@@ -11,10 +11,10 @@ impl<T: Read<usize>> Read<u8> for AT<T> {
 }
 
 /// We should be able to write a u8 to memory
-impl<'a, T: Read<usize>> Write<'a, u8> for AT<T> {
-    fn write(&self, state: &'a mut State) -> &'a mut u8 {
-        let location = self.0.read(state);
-        &mut state.memory.ram[location]
+impl<T: Read<usize>> Write<u8> for AT<T> {
+    fn write(&self, state: &mut State, val: u8) {
+        let location: usize = self.0.read(state);
+        state.memory.ram[location] = val;
     }
 }
 
@@ -36,7 +36,7 @@ mod tests {
         let at = AT(I);
         let mut state = State::mock(&[]);
         state.registers.i_register = 1403;
-        *at.write(&mut state) = 76;
+        at.write(&mut state, 76);
         assert_eq!(state.memory.ram[1403], 76);
     }
 }

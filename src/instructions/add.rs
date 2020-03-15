@@ -6,16 +6,16 @@ use std::ops::Add;
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1)
 /// Note that this does NOT set any flags on integer overflow
-pub struct ADD<'a, S, T, U>(T, U, PhantomData<&'a S>)
+pub struct ADD<S, T, U>(T, U, PhantomData<S>)
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>;
 
-impl<'a, S, T, U> ADD<'a, S, T, U>
+impl<S, T, U> ADD<S, T, U>
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>,
 {
     /// Convenience constructor to let us create ADD without typing PhantomData
@@ -24,30 +24,30 @@ where
     }
 }
 
-impl<'a, S, T, U> Instruction<'a> for ADD<'a, S, T, U>
+impl<S, T, U> Instruction for ADD<S, T, U>
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>,
 {
-    fn execute(&self, state: &'a mut State) {
+    fn execute(&self, state: &mut State) {
         let (result, _): (S, bool) = self.0.read(state).overflowing_add(&self.1.read(state));
-        *self.0.write(state) = result;
+        self.0.write(state, result);
     }
 }
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1, sets VF = carry).
 /// This is similar to the ADD struct. The difference is in how they handle integer overflow
-pub struct ADDF<'a, S, T, U>(T, U, PhantomData<&'a S>)
+pub struct ADDF<S, T, U>(T, U, PhantomData<S>)
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>;
 
-impl<'a, S, T, U> ADDF<'a, S, T, U>
+impl<S, T, U> ADDF<S, T, U>
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>,
 {
     /// Convenience constructor to let us create ADDF without typing PhantomData
@@ -56,16 +56,16 @@ where
     }
 }
 
-impl<'a, S, T, U> Instruction<'a> for ADDF<'a, S, T, U>
+impl<S, T, U> Instruction for ADDF<S, T, U>
 where
     S: OverflowingAdd,
-    T: Write<'a, S> + Read<S>,
+    T: Write<S> + Read<S>,
     U: Read<S>,
 {
-    fn execute(&self, state: &'a mut State) {
+    fn execute(&self, state: &mut State) {
         let (result, carry): (S, bool) = self.0.read(state).overflowing_add(&self.1.read(state));
         state.registers.v_registers[0xF] = u8::from(carry);
-        *self.0.write(state) = result;
+        self.0.write(state, result);
     }
 }
 

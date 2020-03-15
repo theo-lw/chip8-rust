@@ -5,7 +5,7 @@ use crate::variables::Read;
 /// Represents the SYS instruction (goto a routine at SYS.0)
 pub struct SYS<T: Read<usize>>(pub T);
 
-impl<'a, T: Read<usize>> Instruction<'a> for SYS<T> {
+impl<T: Read<usize>> Instruction for SYS<T> {
     fn execute(&self, state: &mut State) {
         state.program_counter = self.0.read(state);
     }

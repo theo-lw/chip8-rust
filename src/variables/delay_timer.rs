@@ -11,9 +11,9 @@ impl Read<u8> for DT {
 }
 
 /// We should be able to write a u8 to the delay timer
-impl<'a> Write<'a, u8> for DT {
-    fn write(&self, state: &'a mut State) -> &'a mut u8 {
-        &mut state.timers.delay_timer
+impl Write<u8> for DT {
+    fn write(&self, state: &mut State, val: u8) {
+        state.timers.delay_timer = val;
     }
 }
 
@@ -33,7 +33,7 @@ mod tests {
     fn test_write_u8() {
         let st = DT;
         let mut state = State::mock(&[]);
-        *st.write(&mut state) = 200;
+        st.write(&mut state, 200);
         assert_eq!(state.timers.delay_timer, 200);
     }
 }

@@ -2,12 +2,12 @@ use super::{Instruction, State};
 use crate::variables::Read;
 
 /// Represents the JP instruction (jump to the location at JP.0 + JP.1)
-pub struct JP<T, U>(pub T, U)
+pub struct JP<T, U>(pub T, pub U)
 where
     T: Read<usize>,
     U: Read<usize>;
 
-impl<'a, T, U> Instruction<'a> for JP<T, U>
+impl<T, U> Instruction for JP<T, U>
 where
     T: Read<usize>,
     U: Read<usize>,

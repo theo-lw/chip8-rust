@@ -1,6 +1,7 @@
 pub mod byte;
 pub mod delay_timer;
 pub mod iregister;
+pub mod key;
 pub mod memory_at;
 pub mod nibble;
 pub mod sound_timer;
@@ -15,6 +16,6 @@ pub trait Read<T> {
 }
 
 /// Trait for variables that can be written to chip-8's state
-pub trait Write<'a, T> {
-    fn write(&self, to: &'a mut State) -> &'a mut T;
+pub trait Write<T> {
+    fn write(&self, to: &mut State, val: T);
 }
