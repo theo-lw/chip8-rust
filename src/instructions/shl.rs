@@ -35,7 +35,7 @@ mod tests {
 
     #[test]
     fn test_shl_no_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[5] = 0b0101_0111;
         let shl = SHL::new(V(B4(5)));
         shl.execute(&mut state);
@@ -45,7 +45,7 @@ mod tests {
 
     #[test]
     fn test_shl_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[8] = 0b1100_0101;
         let shl = SHL::new(V(B4(8)));
         shl.execute(&mut state);

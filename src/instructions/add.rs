@@ -89,7 +89,7 @@ mod tests {
 
     #[test]
     fn test_add() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 3;
         state.registers.i_register = 45;
         let add = ADD::new(I, V(B4(12)));
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn test_addf_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 3;
         state.registers.v_registers[3] = 253;
         let addf = ADDF::new(V(B4(3)), V(B4(12)));
@@ -112,7 +112,7 @@ mod tests {
 
     #[test]
     fn test_addf_no_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[4] = 3;
         state.registers.v_registers[7] = 252;
         let addf = ADDF::new(V(B4(7)), V(B4(4)));

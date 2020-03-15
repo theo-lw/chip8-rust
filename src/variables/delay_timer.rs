@@ -24,7 +24,7 @@ mod tests {
     #[test]
     fn test_read_u8() {
         let st = DT;
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.timers.delay_timer = 7;
         assert_eq!(st.read(&state), 7);
     }
@@ -32,7 +32,7 @@ mod tests {
     #[test]
     fn test_write_u8() {
         let st = DT;
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         *st.write(&mut state) = 200;
         assert_eq!(state.timers.delay_timer, 200);
     }

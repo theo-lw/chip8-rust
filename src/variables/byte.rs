@@ -41,7 +41,7 @@ mod tests {
     #[test]
     fn test_read_u8() {
         let byte = B8(B4(0b1010), B4(0b0001));
-        let state = State::new(&[]);
+        let state = State::mock(&[]);
         assert_eq!(byte.read(&state), 0b1010_0001);
     }
 }

@@ -40,7 +40,7 @@ mod tests {
 
     #[test]
     fn test_and() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[3] = 0b1001_1001;
         state.registers.v_registers[5] = 0b1010_1011;
         let and = AND::new(V(B4(3)), V(B4(5)));

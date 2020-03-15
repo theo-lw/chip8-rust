@@ -36,7 +36,7 @@ mod tests {
     #[test]
     fn test_read_usize() {
         let val = B12(B4(0b1111), B4(0b1010), B4(0b1011));
-        let state = State::new(&[]);
+        let state = State::mock(&[]);
         assert_eq!(val.read(&state), 0b1111_1010_1011);
     }
 
@@ -49,7 +49,7 @@ mod tests {
     #[test]
     fn test_read_u16() {
         let val = B12(B4(0b1001), B4(0b1000), B4(0b0000));
-        let state = State::new(&[]);
+        let state = State::mock(&[]);
         assert_eq!(val.read(&state), 0b1001_1000_0000);
     }
 }

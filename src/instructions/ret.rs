@@ -16,7 +16,7 @@ mod tests {
 
     #[test]
     fn test_ret() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.stack.push(3).unwrap();
         let ret = RET;
         ret.execute(&mut state);
@@ -27,7 +27,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_ret_empty_stack() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let ret = RET;
         ret.execute(&mut state);
     }

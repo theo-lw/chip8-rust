@@ -26,7 +26,7 @@ mod tests {
     #[test]
     fn test_read_u8() {
         let at = AT(B12(B4(0b1001), B4(0b0100), B4(0b0010)));
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.memory.ram[0b1001_0100_0010] = 43;
         assert_eq!(at.read(&state), 43);
     }
@@ -34,7 +34,7 @@ mod tests {
     #[test]
     fn test_write_u8() {
         let at = AT(I);
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.i_register = 1403;
         *at.write(&mut state) = 76;
         assert_eq!(state.memory.ram[1403], 76);

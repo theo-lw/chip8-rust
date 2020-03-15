@@ -37,7 +37,7 @@ mod tests {
 
     #[test]
     fn test_rnd_basic() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[3] = 4;
         let rnd = RND::new(V(B4(3)), B8::from(0));
         rnd.execute(&mut state);

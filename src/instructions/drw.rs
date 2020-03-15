@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn test_drw_no_collision() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let drw = DRW(V(B4(0)), V(B4(1)), B4(5));
         drw.execute(&mut state);
         assert_eq!(state.registers.v_registers[0xF], 0);

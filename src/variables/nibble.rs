@@ -42,7 +42,7 @@ mod tests {
 
     #[test]
     fn test_read_usize() {
-        let state = State::new(&[]);
+        let state = State::mock(&[]);
         let (x, y): (B4, B4) = B4::from_u8(0b0110_1001);
         assert_eq!(x.read(&state), 0b0110);
         assert_eq!(y.read(&state), 0b1001);

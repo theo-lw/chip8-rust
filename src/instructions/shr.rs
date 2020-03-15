@@ -35,7 +35,7 @@ mod tests {
 
     #[test]
     fn test_shr_no_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[5] = 0b1001_0110;
         let shr = SHR::new(V(B4(5)));
         shr.execute(&mut state);
@@ -45,7 +45,7 @@ mod tests {
 
     #[test]
     fn test_shr_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[8] = 0b1100_0101;
         let shr = SHR::new(V(B4(8)));
         shr.execute(&mut state);

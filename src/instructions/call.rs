@@ -18,7 +18,7 @@ mod tests {
 
     #[test]
     fn test_call() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let program_counter = state.program_counter;
         let call = CALL(B12(B4(0b1000), B4(0b0010), B4(0b0001)));
         call.execute(&mut state);

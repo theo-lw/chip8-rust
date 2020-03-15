@@ -28,9 +28,10 @@ pub struct State {
 }
 
 impl State {
-    /// Creates a new State struct
+    /// Creates a new State struct with no IO (no display, no keyboard).
+    /// Used for testing purposes only!
     #[cfg(test)]
-    pub fn new(program: &[u8]) -> Self {
+    pub fn mock(program: &[u8]) -> Self {
         State {
             display: Display::new(vec![]),
             memory: Memory::new(program),

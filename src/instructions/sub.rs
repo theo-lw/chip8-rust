@@ -90,7 +90,7 @@ mod tests {
 
     #[test]
     fn test_sub() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 3;
         state.registers.i_register = 45;
         let sub = SUB::new(I, V(B4(12)));
@@ -102,7 +102,7 @@ mod tests {
 
     #[test]
     fn test_subn() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 253;
         state.registers.v_registers[3] = 3;
         let subn = SUBN::new(V(B4(3)), V(B4(12)));
@@ -114,7 +114,7 @@ mod tests {
 
     #[test]
     fn test_sub_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 200;
         state.registers.v_registers[11] = 45;
         let sub = SUB::new(V(B4(11)), V(B4(12)));
@@ -126,7 +126,7 @@ mod tests {
 
     #[test]
     fn test_subn_overflow() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[4] = 3;
         state.registers.v_registers[7] = 252;
         let subn = SUBN::new(V(B4(7)), V(B4(4)));

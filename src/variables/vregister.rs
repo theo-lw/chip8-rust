@@ -43,7 +43,7 @@ mod tests {
 
     #[test]
     fn test_read_v_register_u8() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[3] = 4;
         let result: u8 = V(B4(3)).read(&state);
         assert_eq!(result, 4);
@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn test_read_v_register_u16() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[12] = 255;
         let result: u16 = V(B4(12)).read(&state);
         assert_eq!(result, 255);
@@ -59,7 +59,7 @@ mod tests {
 
     #[test]
     fn test_read_v_register_usize() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[0] = 128;
         let result: usize = V(B4(0)).read(&state);
         assert_eq!(result, 128);
@@ -68,13 +68,13 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_v_register_out_of_range() {
-        let state = State::new(&[]);
+        let state = State::mock(&[]);
         let _: u8 = V(B12(B4(0b1111), B4(0b1111), B4(0b0000))).read(&state);
     }
 
     #[test]
     fn test_write_v_register() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         *V(B4(10)).write(&mut state) = 2;
         assert_eq!(state.registers.v_registers[10], 2);
     }

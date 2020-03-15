@@ -40,7 +40,7 @@ mod tests {
 
     #[test]
     fn test_xor() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[0x0] = 0b1001_1001;
         state.registers.v_registers[0xE] = 0b1010_0011;
         let xor = XOR::new(V(B4(0x0)), V(B4(0xE)));

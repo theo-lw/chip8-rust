@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn test_ld() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let ld = LD::new(V(B4(11)), B8::from(92));
         ld.execute(&mut state);
         assert_eq!(state.registers.v_registers[11], 92);

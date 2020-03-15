@@ -31,7 +31,7 @@ mod tests {
     #[test]
     fn test_read_u16() {
         let i = I;
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.i_register = 14;
         let result: u16 = i.read(&state);
         assert_eq!(result, 14);
@@ -40,7 +40,7 @@ mod tests {
     #[test]
     fn test_read_usize() {
         let i = I;
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.i_register = 81;
         let result: usize = i.read(&state);
         assert_eq!(result, 81);
@@ -49,7 +49,7 @@ mod tests {
     #[test]
     fn test_write_u16() {
         let i = I;
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         *i.write(&mut state) = 9;
         assert_eq!(state.registers.i_register, 9);
     }

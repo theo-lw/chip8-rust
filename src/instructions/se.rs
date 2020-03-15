@@ -19,7 +19,7 @@ mod tests {
 
     #[test]
     fn test_se_true() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[4] = 98;
         let se = SE(V(B4(4)), B8::from(98));
         let program_counter = state.program_counter;
@@ -29,7 +29,7 @@ mod tests {
 
     #[test]
     fn test_se_false() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[11] = 9;
         state.registers.v_registers[2] = 44;
         let se = SE(V(B4(11)), V(B4(2)));

@@ -18,7 +18,7 @@ mod tests {
 
     #[test]
     fn test_sys() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let sys = SYS(B12(B4(0b1011), B4(0b1001), B4(0b0010)));
         sys.execute(&mut state);
         assert_eq!(state.program_counter, 0b1011_1001_0010);

@@ -40,7 +40,7 @@ mod tests {
 
     #[test]
     fn test_or() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         state.registers.v_registers[1] = 0b1011_0001;
         state.registers.v_registers[13] = 0b1000_0010;
         let or = OR::new(V(B4(1)), V(B4(13)));

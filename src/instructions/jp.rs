@@ -24,7 +24,7 @@ mod tests {
 
     #[test]
     fn test_jp() {
-        let mut state = State::new(&[]);
+        let mut state = State::mock(&[]);
         let jp = JP(B4(0), B12(B4(0b0000), B4(0b1001), B4(0b0010)));
         jp.execute(&mut state);
         assert_eq!(state.program_counter, 0b0000_1001_0010);
