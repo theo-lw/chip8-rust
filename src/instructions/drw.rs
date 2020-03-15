@@ -1,6 +1,7 @@
 use super::{Instruction, State};
 use crate::variables::Read;
 
+/// Represents the DRW instructions (draws DRW.2 bytes at position (DRW.0, DRW.1))
 pub struct DRW<S, T, U>(pub S, pub T, pub U)
 where
     S: Read<usize>,
@@ -20,10 +21,10 @@ where
         for i in 0..self.2.read(state) {
             let byte: u8 = state.memory.ram[usize::from(state.registers.i_register) + i];
             for j in 0..8 {
-                let bit = (byte & (1 << 7 - j)) >> 7 - j;
+                let bit = (byte & (1 << (7 - j))) >> (7 - j);
                 vf |= state
                     .display
-                    .xor(x + j, y + i, if bit == 0 { false } else { true });
+                    .xor(x + j, y + i, bit != 0);
             }
         }
         state.registers.v_registers[0xF] = u8::from(vf);

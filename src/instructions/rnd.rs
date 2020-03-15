@@ -1,5 +1,3 @@
-extern crate rand;
-
 use super::{Instruction, State};
 use crate::variables::{Read, Write};
 use rand::random;
