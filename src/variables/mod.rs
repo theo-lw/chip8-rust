@@ -1,9 +1,12 @@
+pub mod bcd;
 pub mod byte;
 pub mod delay_timer;
+pub mod font;
 pub mod iregister;
 pub mod key;
 pub mod memory_at;
 pub mod nibble;
+pub mod range;
 pub mod sound_timer;
 pub mod tribble;
 pub mod vregister;

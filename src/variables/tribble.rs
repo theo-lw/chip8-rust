@@ -23,9 +23,9 @@ impl Read<usize> for B12 {
 }
 
 /// We should be able to read a u16 from a B12 using the conversion
-impl Read<u16> for u16 {
+impl Read<u16> for B12 {
     fn read(&self, _: &State) -> u16 {
-        *self
+        u16::from(*self)
     }
 }
 
@@ -37,7 +37,8 @@ mod tests {
     fn test_read_usize() {
         let val = B12(B4(0b1111), B4(0b1010), B4(0b1011));
         let state = State::mock(&[]);
-        assert_eq!(val.read(&state), 0b1111_1010_1011);
+        let result: usize = val.read(&state);
+        assert_eq!(result, 0b1111_1010_1011);
     }
 
     #[test]
@@ -50,6 +51,7 @@ mod tests {
     fn test_read_u16() {
         let val = B12(B4(0b1001), B4(0b1000), B4(0b0000));
         let state = State::mock(&[]);
-        assert_eq!(val.read(&state), 0b1001_1000_0000);
+        let result: u16 = val.read(&state);
+        assert_eq!(result, 0b1001_1000_0000);
     }
 }
