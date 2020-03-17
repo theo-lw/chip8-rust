@@ -18,8 +18,8 @@ where
     T: Write<U>,
 {
     fn write(&self, state: &mut State, val: Vec<U>) {
-        for i in 0..min(self.0.len(), val.len()) {
-            self.0[i].write(state, val[i].clone());
+        for (key, val) in val.iter().enumerate().take(min(self.0.len(), val.len())) {
+            self.0[key].write(state, val.clone());
         }
     }
 }
