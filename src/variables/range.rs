@@ -1,23 +1,25 @@
 use super::{Read, State, Write};
 use std::cmp::min;
 
-impl<T, U> Read<Vec<T>> for [U]
+pub struct RANGE<T>(pub Vec<T>);
+
+impl<T, U> Read<Vec<T>> for RANGE<U>
 where
     U: Read<T>,
 {
     fn read(&self, state: &State) -> Vec<T> {
-        self.iter().map(|x| x.read(state)).collect()
+        self.0.iter().map(|x| x.read(state)).collect()
     }
 }
 
-impl<T, U> Write<Vec<U>> for [T]
+impl<T, U> Write<Vec<U>> for RANGE<T>
 where
     U: Clone,
     T: Write<U>,
 {
     fn write(&self, state: &mut State, val: Vec<U>) {
-        for i in 0..min(self.len(), val.len()) {
-            self[i].write(state, val[i].clone());
+        for i in 0..min(self.0.len(), val.len()) {
+            self.0[i].write(state, val[i].clone());
         }
     }
 }
@@ -34,7 +36,7 @@ mod tests {
         for (key, val) in entries.iter().enumerate() {
             state.registers.v_registers[key] = *val;
         }
-        let v: Vec<V<B4>> = (0u8..4).map(|x| V(B4(x))).collect();
+        let v = RANGE((0u8..4).map(|x| V(B4(x))).collect::<Vec<V<B4>>>());
         let result: Vec<u8> = v.read(&state);
         assert_eq!(result, entries.to_vec());
     }
@@ -43,9 +45,9 @@ mod tests {
     fn test_write_vec() {
         let mut state = State::mock(&[]);
         state.registers.i_register = 540;
-        let v: Vec<AT<I>> = (0u8..5).map(|x| AT(I, usize::from(x))).collect();
+        let v: Vec<AT<I>> = (0usize..5).map(|x| AT(I, x)).collect();
         let entries: Vec<u8> = vec![32, 44, 2, 9, 65];
-        v.write(&mut state, entries.clone());
+        RANGE(v).write(&mut state, entries.clone());
         assert_eq!(state.memory.ram[540..545].to_vec(), entries);
     }
 }

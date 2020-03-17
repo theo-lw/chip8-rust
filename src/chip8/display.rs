@@ -1,12 +1,19 @@
 /// Struct representing the display of a chip-8 machine
 pub struct Display {
-    observers: Vec<Box<dyn FnMut(usize, usize, bool)>>,
+    observers: Vec<Box<dyn FnMut(DisplayEvent)>>,
     pub pixels: [[bool; 64]; 32],
+}
+
+/// Enum representing the events that can be emitted by the display
+#[derive(Clone, Copy, Debug)]
+pub enum DisplayEvent {
+    XOR(usize, usize, bool),
+    CLEAR,
 }
 
 impl Display {
     /// Creates a new display with no active pixels
-    pub fn new(observers: Vec<Box<dyn FnMut(usize, usize, bool)>>) -> Display {
+    pub fn new(observers: Vec<Box<dyn FnMut(DisplayEvent)>>) -> Self {
         Display {
             observers,
             pixels: [[false; 64]; 32],
@@ -14,8 +21,15 @@ impl Display {
     }
 
     /// Attach an observer to the display
-    pub fn attach_observer(&mut self, observer: Box<dyn FnMut(usize, usize, bool)>) {
+    pub fn attach_observer(&mut self, observer: Box<dyn FnMut(DisplayEvent)>) {
         self.observers.push(observer);
+    }
+
+    /// Notifies the observers
+    fn notify_observers(&mut self, event: DisplayEvent) {
+        for f in self.observers.iter_mut() {
+            f(event);
+        }
     }
 
     /// XOR's a pixel at (x, y) onto the screen.
@@ -25,11 +39,19 @@ impl Display {
         self.pixels[y][x] ^= val;
         // if val is true, then a the pixel must have changed, so we notify the observers
         if val {
-            for f in self.observers.iter_mut() {
-                f(x, y, self.pixels[y][x]);
-            }
+            self.notify_observers(DisplayEvent::XOR(x, y, self.pixels[y][x]));
         }
         result
+    }
+
+    /// Clears the display
+    pub fn clear(&mut self) {
+        for row in self.pixels.iter_mut() {
+            for pixel in row.iter_mut() {
+                *pixel = false;
+            }
+        }
+        self.notify_observers(DisplayEvent::CLEAR);
     }
 }
 
@@ -48,5 +70,19 @@ mod tests {
         assert_eq!(display.pixels[21][46], true);
         assert_eq!(display.xor(46, 21, true), true);
         assert_eq!(display.pixels[21][46], false);
+    }
+
+    #[test]
+    fn test_display_clear() {
+        let mut display = Display::new(vec![]);
+        display.pixels[3][4] = true;
+        display.pixels[20][31] = true;
+        display.pixels[6][1] = true;
+        display.clear();
+        for row in display.pixels.iter() {
+            for pixel in row.iter() {
+                assert_eq!(*pixel, false);
+            }
+        }
     }
 }

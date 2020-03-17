@@ -13,7 +13,7 @@ where
     T: Write<S>,
     U: Read<S>,
 {
-    fn new(left: T, right: U) -> Self {
+    pub fn new(left: T, right: U) -> Self {
         LD(left, right, PhantomData)
     }
 }
