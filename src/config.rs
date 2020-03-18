@@ -1,4 +1,4 @@
-use sdl2::{keyboard::Keycode, pixels::Color};
+use sdl2::{keyboard::Keycode};
 use serde::Deserialize;
 use serde_json;
 use std::{collections::HashMap, fs::File, io::BufReader};
@@ -7,9 +7,10 @@ use std::{collections::HashMap, fs::File, io::BufReader};
 #[derive(Deserialize, Clone)]
 pub struct Config {
     pub ticks_per_frame: u8,
+    pub frames_per_second: u32,
     pub pixel_size: u32,
-    active_color: ColorConfig,
-    inactive_color: ColorConfig,
+    pub active_color: Color,
+    pub inactive_color: Color,
     keyboard: HashMap<String, String>,
 }
 
@@ -67,15 +68,18 @@ impl Config {
         }
         result
     }
+}
 
-    /// Gets the active color (for SDL)
-    pub fn get_active_color(&self) -> Color {
-        Color::from(self.active_color)
+#[derive(Deserialize, Copy, Clone)]
+pub struct Color(pub u8, pub u8, pub u8, pub u8);
+
+impl Color {
+    pub fn black() -> Self {
+        Color(u8::min_value(), u8::min_value(), u8::min_value(), u8::min_value())
     }
-
-    /// Gets the inactive color (for SDL)
-    pub fn get_inactive_color(&self) -> Color {
-        Color::from(self.inactive_color)
+    
+    pub fn white() -> Self {
+        Color(u8::max_value(), u8::max_value(), u8::max_value(), u8::max_value())
     }
 }
 
@@ -83,46 +87,13 @@ impl Config {
 impl Default for Config {
     fn default() -> Self {
         Config {
-            ticks_per_frame: 1,
+            ticks_per_frame: 9,
             pixel_size: 10,
-            active_color: ColorConfig::white(),
-            inactive_color: ColorConfig::black(),
+            frames_per_second: 60,
+            active_color: Color::white(),
+            inactive_color: Color::black(),
             keyboard: Self::default_keyboard(),
         }
-    }
-}
-
-/// Struct representing a color
-#[derive(Deserialize, Copy, Clone, Debug)]
-struct ColorConfig {
-    r: u8,
-    g: u8,
-    b: u8,
-}
-
-impl ColorConfig {
-    /// Creates a white color config
-    fn white() -> Self {
-        ColorConfig {
-            r: u8::max_value(),
-            g: u8::max_value(),
-            b: u8::max_value(),
-        }
-    }
-
-    /// Creates a black color config
-    fn black() -> Self {
-        ColorConfig {
-            r: u8::min_value(),
-            g: u8::min_value(),
-            b: u8::min_value(),
-        }
-    }
-}
-
-impl From<ColorConfig> for Color {
-    fn from(config: ColorConfig) -> Self {
-        Color::RGB(config.r, config.g, config.b)
     }
 }
 

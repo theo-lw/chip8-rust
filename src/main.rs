@@ -11,8 +11,11 @@ use clap::App;
 use config::Config;
 use instructions::Instruction;
 use sdl2;
-use sdl2::{pixels::Color, rect::Rect};
-use std::{fs, thread, time::Duration};
+use sdl2::{
+    pixels::PixelFormatEnum,
+    render::{Texture, TextureCreator, WindowCanvas},
+};
+use std::{fs, thread, time::{Instant, Duration}};
 
 fn main() {
     // Read command line arguments
@@ -34,9 +37,6 @@ fn main() {
     } else {
         Default::default()
     };
-    let active_color: Color = config.get_active_color();
-    let inactive_color: Color = config.get_inactive_color();
-    let pixel_size: u32 = config.pixel_size;
 
     // Read program
     let program: Vec<u8> =
@@ -55,31 +55,15 @@ fn main() {
         .build()
         .unwrap();
     let event_pump = sdl_context.event_pump().unwrap();
-    let mut canvas = window.into_canvas().present_vsync().build().unwrap();
-    let sdl_display_observer = move |event: DisplayEvent| match event {
-        DisplayEvent::XOR(x, y, active) => {
-            if active == 1 {
-                canvas.set_draw_color(active_color);
-            } else {
-                canvas.set_draw_color(inactive_color);
-            }
-            canvas
-                .fill_rect(Rect::new(
-                    (x as u32 * pixel_size) as i32,
-                    (y as u32 * pixel_size) as i32,
-                    pixel_size,
-                    pixel_size,
-                ))
-                .unwrap_or_else(|e| eprintln!("Error while XOR-ing onto canvas: {}", e));
-        }
-        DisplayEvent::CLEAR => {
-            canvas.set_draw_color(inactive_color);
-            canvas.clear();
-        }
-        DisplayEvent::PRESENT => {
-            canvas.present();
-        }
-    };
+    let mut canvas: WindowCanvas = window.into_canvas().present_vsync().build().unwrap();
+    let texture_creator: TextureCreator<_> = canvas.texture_creator();
+    let mut texture: Texture = texture_creator
+        .create_texture_streaming(
+            PixelFormatEnum::RGBA8888,
+            Display::WIDTH as u32,
+            Display::HEIGHT as u32,
+        )
+        .expect("Could not create texture!");
 
     // Initialize state
     let mut state: State = State {
@@ -89,15 +73,17 @@ fn main() {
         registers: Registers::new(),
         timers: Timers::new(),
         keyboard: Box::new(SDLKeyboard::new(event_pump, config.get_keyboard())),
-        display: Display::new(vec![Box::new(sdl_display_observer)]),
+        display: Display::new(config.active_color, config.inactive_color),
     };
 
     // Run emulator
+    let sleep_duration: Duration = Duration::new(0, 1_000_000_000u32 / config.frames_per_second);
     'running: while state.program_counter + 1 < chip8::memory::MAX_SIZE {
+        let start: Instant = Instant::now();
         if state.keyboard.is_quit() {
             break;
         }
-        
+
         for _ in 0..config.ticks_per_frame {
             let pc: usize = state.program_counter;
             if matches.is_present("debug") {
@@ -125,9 +111,19 @@ fn main() {
                 break 'running;
             }
         }
-        state.display.present();
+        texture
+            .update(None, &state.display.colored_pixels, Display::WIDTH * 4)
+            .expect("Could not update texture!");
+        canvas.clear();
+        canvas
+            .copy(&texture, None, None)
+            .expect("Could not copy texture!");
+        canvas.present();
         state.timers.decrement_timers();
-        thread::sleep(Duration::new(0, 1_000_000_000u32 / 40));
+        let end: Instant = Instant::now();
+        if end - start < sleep_duration {
+            thread::sleep(sleep_duration - (end - start));
+        }
     }
 }
 

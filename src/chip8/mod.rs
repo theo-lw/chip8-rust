@@ -7,11 +7,7 @@ pub mod timers;
 
 use display::Display;
 use keyboard::Keyboard;
-#[cfg(test)]
-use keyboard::MockKeyboard;
 use memory::Memory;
-#[cfg(test)]
-use memory::PROGRAM_START;
 use registers::Registers;
 use stack::Stack;
 use timers::Timers;
@@ -32,8 +28,11 @@ impl State {
     /// Used for testing purposes only!
     #[cfg(test)]
     pub fn mock(program: &[u8]) -> Self {
+        use crate::config::Color;
+        use keyboard::MockKeyboard;
+        use memory::PROGRAM_START;
         State {
-            display: Display::new(vec![]),
+            display: Display::new(Color::white(), Color::black()),
             memory: Memory::new(program),
             registers: Registers::new(),
             timers: Timers::new(),
