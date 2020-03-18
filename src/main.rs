@@ -108,7 +108,10 @@ fn main() {
             let bytes: (u8, u8) = (state.memory.ram[pc], state.memory.ram[pc + 1]);
             let instruction: Box<dyn Instruction> = instructions::parse(bytes).unwrap();
             if matches.is_present("debug") {
-                println!("Instruction: {:X} {:X} ({:?})", bytes.0, bytes.1, instruction);
+                println!(
+                    "Instruction: {:X} {:X} ({:?})",
+                    bytes.0, bytes.1, instruction
+                );
                 println!("======================================================================");
             }
             instruction.execute(&mut state);

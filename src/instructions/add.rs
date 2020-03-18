@@ -1,9 +1,9 @@
 use super::{Instruction, State};
 use crate::overflow_op;
 use crate::variables::{Read, Write};
+use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::ops::Add;
-use std::fmt::Debug;
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1)
 /// Note that this does NOT set any flags on integer overflow

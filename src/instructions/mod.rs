@@ -20,7 +20,6 @@ mod sys;
 mod xor;
 
 use super::chip8::State;
-use std::fmt::Debug;
 use crate::variables::{
     bcd::BCD, byte::B8, delay_timer::DT, font::F, iregister::I, key::K, memory_at::AT, nibble::B4,
     range::RANGE, sound_timer::ST, tribble::B12, vregister::V,
@@ -41,6 +40,7 @@ use shr::SHR;
 use sknp::SKNP;
 use skp::SKP;
 use sne::SNE;
+use std::fmt::Debug;
 use sub::{SUB, SUBN};
 use sys::SYS;
 use xor::XOR;
@@ -98,15 +98,26 @@ pub fn parse(instruction: (u8, u8)) -> Result<Box<dyn Instruction>, InstructionE
             Ok(Box::new(LD::new(arg, BCD(V(second)))))
         }
         (B4(0xF), B4(x), B4(0x5), B4(0x5)) => {
-            let memory_at = RANGE((0usize..=x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
+            let memory_at = RANGE(
+                (0usize..=x.into())
+                    .map(|y| AT(I, y))
+                    .collect::<Vec<AT<I>>>(),
+            );
             let registers = RANGE((0u8..=x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
             Ok(Box::new(LD::new(memory_at, registers)))
         }
         (B4(0xF), B4(x), B4(0x6), B4(0x5)) => {
-            let memory_at = RANGE((0usize..=x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
+            let memory_at = RANGE(
+                (0usize..=x.into())
+                    .map(|y| AT(I, y))
+                    .collect::<Vec<AT<I>>>(),
+            );
             let registers = RANGE((0u8..=x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
             Ok(Box::new(LD::new(registers, memory_at)))
         }
-        _ => Err(InstructionError(format!("Could not parse instruction: {:?}", instruction))),
+        _ => Err(InstructionError(format!(
+            "Could not parse instruction: {:?}",
+            instruction
+        ))),
     }
 }

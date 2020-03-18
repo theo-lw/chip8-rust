@@ -16,9 +16,10 @@ pub struct Config {
 impl Config {
     /// Reads a config struct from a file path
     pub fn from_file(path: &str) -> Self {
-        let file = File::open(path).expect(&format!("Could not open file at {}", path));
+        let file = File::open(path).unwrap_or_else(|_| panic!("Could not open file at {}", path));
         let reader = BufReader::new(file);
-        serde_json::from_reader(reader).expect(&format!("Could not deserialize file at {}", path))
+        serde_json::from_reader(reader)
+            .unwrap_or_else(|_| panic!("Could not deserialize file at {}", path))
     }
 
     /// Returns the default key mappings for the keys not given in the config file
@@ -57,10 +58,12 @@ impl Config {
             } else {
                 &default_keyboard[&format!("{:X}", i)]
             };
-            result[i] = Keycode::from_name(key_name).expect(&format!(
-                "Could not find key with name {}. Please use an SDL key name!",
-                key_name
-            ));
+            result[i] = Keycode::from_name(key_name).unwrap_or_else(|| {
+                panic!(
+                    "Could not find key with name {}. Please use an SDL key name!",
+                    key_name
+                )
+            });
         }
         result
     }

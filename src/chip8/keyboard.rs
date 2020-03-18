@@ -72,13 +72,16 @@ impl Keyboard for SDLKeyboard {
     fn is_quit(&self) -> bool {
         for event in self.event_source.borrow_mut().poll_iter() {
             match event {
-                Event::Quit {..} |
-                Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
+                Event::Quit { .. }
+                | Event::KeyDown {
+                    keycode: Some(Keycode::Escape),
+                    ..
+                } => {
                     return true;
-                },
+                }
                 _ => {}
             }
         }
-        return false;
+        false
     }
 }
