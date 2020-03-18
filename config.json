@@ -1,0 +1,9 @@
+{
+    "ticks_per_frame": 9,
+    "frames_per_second": 60,
+    "pixel_size": 10,
+    "active_color": [255, 255, 255, 255],
+    "inactive_color": [0, 0, 0, 0],
+    "keyboard": {}
+}
+

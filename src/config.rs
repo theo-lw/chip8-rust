@@ -1,10 +1,10 @@
 use sdl2::keyboard::Keycode;
 use serde::Deserialize;
 use serde_json;
-use std::{collections::HashMap, fs::File, io::BufReader};
+use std::{collections::HashMap, fs::File};
 
 /// Represents the JSON config file
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize)]
 pub struct Config {
     pub ticks_per_frame: u8,
     pub frames_per_second: u32,
@@ -18,8 +18,7 @@ impl Config {
     /// Reads a config struct from a file path
     pub fn from_file(path: &str) -> Self {
         let file = File::open(path).unwrap_or_else(|_| panic!("Could not open file at {}", path));
-        let reader = BufReader::new(file);
-        serde_json::from_reader(reader)
+        serde_json::from_reader(file)
             .unwrap_or_else(|_| panic!("Could not deserialize file at {}", path))
     }
 
