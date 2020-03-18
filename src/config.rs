@@ -1,4 +1,4 @@
-use sdl2::{keyboard::Keycode};
+use sdl2::keyboard::Keycode;
 use serde::Deserialize;
 use serde_json;
 use std::{collections::HashMap, fs::File, io::BufReader};
@@ -75,11 +75,21 @@ pub struct Color(pub u8, pub u8, pub u8, pub u8);
 
 impl Color {
     pub fn black() -> Self {
-        Color(u8::min_value(), u8::min_value(), u8::min_value(), u8::min_value())
+        Color(
+            u8::min_value(),
+            u8::min_value(),
+            u8::min_value(),
+            u8::min_value(),
+        )
     }
-    
+
     pub fn white() -> Self {
-        Color(u8::max_value(), u8::max_value(), u8::max_value(), u8::max_value())
+        Color(
+            u8::max_value(),
+            u8::max_value(),
+            u8::max_value(),
+            u8::max_value(),
+        )
     }
 }
 

@@ -15,7 +15,10 @@ use sdl2::{
     pixels::PixelFormatEnum,
     render::{Texture, TextureCreator, WindowCanvas},
 };
-use std::{fs, thread, time::{Instant, Duration}};
+use std::{
+    fs, thread,
+    time::{Duration, Instant},
+};
 
 fn main() {
     // Read command line arguments
