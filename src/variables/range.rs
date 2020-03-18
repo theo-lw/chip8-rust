@@ -1,6 +1,7 @@
 use super::{Read, State, Write};
 use std::cmp::min;
 
+#[derive(Debug)]
 pub struct RANGE<T>(pub Vec<T>);
 
 impl<T, U> Read<Vec<T>> for RANGE<U>

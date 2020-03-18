@@ -1,6 +1,7 @@
 use super::{Read, State, Write};
 
 /// Struct representing the delay timer
+#[derive(Debug)]
 pub struct DT;
 
 /// We should be able to read a u8 from the delay timer

@@ -1,9 +1,9 @@
-mod display;
-mod keyboard;
-mod memory;
-mod registers;
-mod stack;
-mod timers;
+pub mod display;
+pub mod keyboard;
+pub mod memory;
+pub mod registers;
+pub mod stack;
+pub mod timers;
 
 use display::Display;
 use keyboard::Keyboard;

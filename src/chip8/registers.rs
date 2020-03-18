@@ -1,5 +1,5 @@
 /// Struct representing the registers of a chip-8 machine
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Registers {
     pub v_registers: [u8; 16],
     pub i_register: u16,

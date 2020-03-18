@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::{Read, Write};
 
 /// Represents the AND instruction (sets AND.0 = AND.0 | AND.1)
+#[derive(Debug)]
 pub struct AND<T, U>(pub T, pub U)
 where
     T: Write<u8> + Read<u8>,

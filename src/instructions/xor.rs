@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::{Read, Write};
 
 /// Represents the XOR instruction (sets XOR.0 = XOR.0 ^ XOR.1)
+#[derive(Debug)]
 pub struct XOR<T, U>(pub T, pub U)
 where
     T: Write<u8> + Read<u8>,

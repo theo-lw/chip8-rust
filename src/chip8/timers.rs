@@ -1,5 +1,5 @@
 /// Struct representing the timers of a chip-8 machine
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Timers {
     pub delay_timer: u8,
     pub sound_timer: u8,

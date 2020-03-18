@@ -17,6 +17,7 @@ use mockall::*;
 pub trait Keyboard {
     fn is_key_pressed(&self, key: u8) -> bool;
     fn wait_for_key_press(&self) -> u8;
+    fn is_quit(&self) -> bool;
 }
 
 /// A struct that implements the Keyboard trait using the SDL2 library
@@ -66,5 +67,18 @@ impl Keyboard for SDLKeyboard {
             }
             thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
         }
+    }
+
+    fn is_quit(&self) -> bool {
+        for event in self.event_source.borrow_mut().poll_iter() {
+            match event {
+                Event::Quit {..} |
+                Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
+                    return true;
+                },
+                _ => {}
+            }
+        }
+        return false;
     }
 }

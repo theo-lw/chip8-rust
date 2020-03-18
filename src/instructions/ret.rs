@@ -2,6 +2,7 @@ use super::Instruction;
 use super::State;
 
 /// Represents the RET instruction (returns from subroutine)
+#[derive(Debug)]
 pub struct RET;
 
 impl<'a> Instruction for RET {
@@ -20,7 +21,8 @@ mod tests {
         state.stack.push(3).unwrap();
         let ret = RET;
         ret.execute(&mut state);
-        assert_eq!(state.program_counter, 3);
+        state.program_counter += 2;
+        assert_eq!(state.program_counter, 5);
         assert_eq!(state.stack.top(), None);
     }
 

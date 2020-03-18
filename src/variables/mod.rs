@@ -12,13 +12,14 @@ pub mod tribble;
 pub mod vregister;
 
 use super::chip8::State;
+use std::fmt::Debug;
 
 /// Trait for variables that can be read from chip-8's state
-pub trait Read<T> {
+pub trait Read<T>: Debug {
     fn read(&self, from: &State) -> T;
 }
 
 /// Trait for variables that can be written to chip-8's state
-pub trait Write<T> {
+pub trait Write<T>: Debug {
     fn write(&self, to: &mut State, val: T);
 }

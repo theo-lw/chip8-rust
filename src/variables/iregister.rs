@@ -1,6 +1,7 @@
 use super::{Read, State, Write};
 
 /// Represents the I register
+#[derive(Debug)]
 pub struct I;
 
 /// We should be able to read a u16 from the I register

@@ -20,6 +20,7 @@ mod sys;
 mod xor;
 
 use super::chip8::State;
+use std::fmt::Debug;
 use crate::variables::{
     bcd::BCD, byte::B8, delay_timer::DT, font::F, iregister::I, key::K, memory_at::AT, nibble::B4,
     range::RANGE, sound_timer::ST, tribble::B12, vregister::V,
@@ -48,12 +49,13 @@ use xor::XOR;
 ///
 /// Defines one method, `execute(&self, &mut State)` because
 /// instructions should be able to be executed in the context of a State struct
-pub trait Instruction {
+pub trait Instruction: Debug {
     fn execute(&self, state: &mut State);
 }
 
 /// Error for when an instruction can't be parsed
-pub struct InstructionError;
+#[derive(Debug, Clone)]
+pub struct InstructionError(String);
 
 pub fn parse(instruction: (u8, u8)) -> Result<Box<dyn Instruction>, InstructionError> {
     let (first, second): (B4, B4) = B4::from_u8(instruction.0);
@@ -96,15 +98,15 @@ pub fn parse(instruction: (u8, u8)) -> Result<Box<dyn Instruction>, InstructionE
             Ok(Box::new(LD::new(arg, BCD(V(second)))))
         }
         (B4(0xF), B4(x), B4(0x5), B4(0x5)) => {
-            let memory_at = RANGE((0usize..x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
-            let registers = RANGE((0u8..x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
+            let memory_at = RANGE((0usize..=x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
+            let registers = RANGE((0u8..=x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
             Ok(Box::new(LD::new(memory_at, registers)))
         }
         (B4(0xF), B4(x), B4(0x6), B4(0x5)) => {
-            let memory_at = RANGE((0usize..x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
-            let registers = RANGE((0u8..x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
+            let memory_at = RANGE((0usize..=x.into()).map(|y| AT(I, y)).collect::<Vec<AT<I>>>());
+            let registers = RANGE((0u8..=x).map(|y| V(B4(y))).collect::<Vec<V<B4>>>());
             Ok(Box::new(LD::new(registers, memory_at)))
         }
-        _ => Err(InstructionError),
+        _ => Err(InstructionError(format!("Could not parse instruction: {:?}", instruction))),
     }
 }

@@ -1,7 +1,7 @@
 /// Struct representing the display of a chip-8 machine
 pub struct Display {
     observers: Vec<Box<dyn FnMut(DisplayEvent)>>,
-    pub pixels: [[bool; 64]; 32],
+    pub pixels: [[bool; Self::WIDTH]; Self::HEIGHT],
 }
 
 /// Enum representing the events that can be emitted by the display
@@ -9,20 +9,22 @@ pub struct Display {
 pub enum DisplayEvent {
     XOR(usize, usize, bool),
     CLEAR,
+    PRESENT,
 }
 
 impl Display {
+    /// The width of the display (in pixels)
+    pub const WIDTH: usize = 64;
+
+    /// The height of the display (in pixels)
+    pub const HEIGHT: usize = 32;
+
     /// Creates a new display with no active pixels
     pub fn new(observers: Vec<Box<dyn FnMut(DisplayEvent)>>) -> Self {
         Display {
             observers,
-            pixels: [[false; 64]; 32],
+            pixels: [[false; Self::WIDTH]; Self::HEIGHT],
         }
-    }
-
-    /// Attach an observer to the display
-    pub fn attach_observer(&mut self, observer: Box<dyn FnMut(DisplayEvent)>) {
-        self.observers.push(observer);
     }
 
     /// Notifies the observers
@@ -44,7 +46,7 @@ impl Display {
         result
     }
 
-    /// Clears the display
+    /// Clears the display of all pixels
     pub fn clear(&mut self) {
         for row in self.pixels.iter_mut() {
             for pixel in row.iter_mut() {
@@ -52,6 +54,11 @@ impl Display {
             }
         }
         self.notify_observers(DisplayEvent::CLEAR);
+    }
+
+    /// Presents the display
+    pub fn present(&mut self) {
+        self.notify_observers(DisplayEvent::PRESENT);
     }
 }
 

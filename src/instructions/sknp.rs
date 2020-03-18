@@ -3,6 +3,7 @@ use crate::variables::Read;
 
 /// Represents the SKNP instruction (skips next instruction if the key corresponding to SKNP.0 is
 /// not pressed)
+#[derive(Debug)]
 pub struct SKNP<T>(pub T)
 where
     T: Read<u8>;

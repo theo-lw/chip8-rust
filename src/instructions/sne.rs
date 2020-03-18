@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::Read;
 
 /// Represents the SNE instruction (skip the next instruction if SNE.0 != SNE.1)
+#[derive(Debug)]
 pub struct SNE<T: Read<u8>, U: Read<u8>>(pub T, pub U);
 
 impl<T: Read<u8>, U: Read<u8>> Instruction for SNE<T, U> {

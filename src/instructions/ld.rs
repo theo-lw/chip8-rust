@@ -1,15 +1,18 @@
 use super::{Instruction, State};
 use crate::variables::{Read, Write};
-use std::marker::PhantomData;
+use std::{fmt::Debug, marker::PhantomData};
 
 /// Represents the LD instruction (loads the value of LD.1 into LD.0)
+#[derive(Debug)]
 pub struct LD<S, T, U>(T, U, PhantomData<S>)
 where
+    S: Debug,
     T: Write<S>,
     U: Read<S>;
 
 impl<S, T, U> LD<S, T, U>
 where
+    S: Debug,
     T: Write<S>,
     U: Read<S>,
 {
@@ -20,6 +23,7 @@ where
 
 impl<S, T, U> Instruction for LD<S, T, U>
 where
+    S: Debug,
     T: Write<S>,
     U: Read<S>,
 {

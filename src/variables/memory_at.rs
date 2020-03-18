@@ -2,6 +2,7 @@ use super::{Read, State, Write};
 
 /// Struct representing the memory at a location at AT.0 + AT.1
 /// The first field represents the starting position. The second represents the offset
+#[derive(Debug)]
 pub struct AT<T: Read<usize>>(pub T, pub usize);
 
 /// We should be able to read a u8 from memory

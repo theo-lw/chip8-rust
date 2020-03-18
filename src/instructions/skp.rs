@@ -3,6 +3,7 @@ use crate::variables::Read;
 
 /// Represents the SKP instruction (skips next instruction if the key corresponding to SKP.0 is
 /// pressed)
+#[derive(Debug)]
 pub struct SKP<T>(pub T)
 where
     T: Read<u8>;

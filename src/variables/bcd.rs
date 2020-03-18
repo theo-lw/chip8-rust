@@ -1,5 +1,6 @@
 use super::{Read, State};
 
+#[derive(Debug)]
 pub struct BCD<T>(pub T)
 where
     T: Read<u8>;
@@ -29,5 +30,7 @@ mod tests {
         let state = State::mock(&[]);
         let bcd = BCD(B8::from(231));
         assert_eq!(bcd.read(&state), vec![2, 3, 1]);
+        let bcd = BCD(B8::from(31));
+        assert_eq!(bcd.read(&state), vec![0, 3, 1]);
     }
 }

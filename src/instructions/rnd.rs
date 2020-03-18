@@ -3,6 +3,7 @@ use crate::variables::{Read, Write};
 use rand::random;
 
 /// Represents the RND instruction (set RND.0 to a random byte & RND.1)
+#[derive(Debug)]
 pub struct RND<T, U>(pub T, pub U)
 where
     T: Write<u8>,

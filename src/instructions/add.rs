@@ -3,9 +3,11 @@ use crate::overflow_op;
 use crate::variables::{Read, Write};
 use std::marker::PhantomData;
 use std::ops::Add;
+use std::fmt::Debug;
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1)
 /// Note that this does NOT set any flags on integer overflow
+#[derive(Debug)]
 pub struct ADD<S, T, U>(T, U, PhantomData<S>)
 where
     S: OverflowingAdd,
@@ -14,7 +16,7 @@ where
 
 impl<S, T, U> ADD<S, T, U>
 where
-    S: OverflowingAdd,
+    S: OverflowingAdd + Debug,
     T: Write<S> + Read<S>,
     U: Read<S>,
 {
@@ -26,7 +28,7 @@ where
 
 impl<S, T, U> Instruction for ADD<S, T, U>
 where
-    S: OverflowingAdd,
+    S: OverflowingAdd + Debug,
     T: Write<S> + Read<S>,
     U: Read<S>,
 {
@@ -38,15 +40,16 @@ where
 
 /// Represents the ADD instruction (sets ADD.0 = ADD.0 + ADD.1, sets VF = carry).
 /// This is similar to the ADD struct. The difference is in how they handle integer overflow
+#[derive(Debug)]
 pub struct ADDF<S, T, U>(T, U, PhantomData<S>)
 where
-    S: OverflowingAdd,
+    S: OverflowingAdd + Debug,
     T: Write<S> + Read<S>,
     U: Read<S>;
 
 impl<S, T, U> ADDF<S, T, U>
 where
-    S: OverflowingAdd,
+    S: OverflowingAdd + Debug,
     T: Write<S> + Read<S>,
     U: Read<S>,
 {
@@ -58,7 +61,7 @@ where
 
 impl<S, T, U> Instruction for ADDF<S, T, U>
 where
-    S: OverflowingAdd,
+    S: OverflowingAdd + Debug,
     T: Write<S> + Read<S>,
     U: Read<S>,
 {

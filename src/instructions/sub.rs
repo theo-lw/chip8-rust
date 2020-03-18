@@ -3,6 +3,7 @@ use crate::variables::{Read, Write};
 
 /// Represents the SUB instruction (sets SUB.0 = SUB.0 + SUB.1)
 /// Note that this does NOT set any flags on integer overflow
+#[derive(Debug)]
 pub struct SUB<T, U>(pub T, pub U)
 where
     T: Write<u8> + Read<u8>,
@@ -22,6 +23,7 @@ where
 
 /// Represents the SUB instruction (sets SUB.0 = SUB.0 + SUB.1, sets VF = carry).
 /// This is similar to the SUB struct. The difference is in how they handle integer overflow
+#[derive(Debug)]
 pub struct SUBN<T, U>(pub T, pub U)
 where
     T: Write<u8> + Read<u8>,

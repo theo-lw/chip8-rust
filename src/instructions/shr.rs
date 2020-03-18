@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::{Read, Write};
 
 /// Represents the SHR instruction (bitwise right-shift on the contents of SHR.0)
+#[derive(Debug)]
 pub struct SHR<T>(pub T)
 where
     T: Read<u8> + Write<u8>;

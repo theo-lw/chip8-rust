@@ -1,6 +1,7 @@
 use super::{Read, State, Write};
 
 /// Struct representing the sound timer
+#[derive(Debug)]
 pub struct ST;
 
 /// We should be able to read a u8 from the sound timer

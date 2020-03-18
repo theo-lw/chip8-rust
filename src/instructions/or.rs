@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::{Read, Write};
 
 /// Represents the OR instruction (sets OR.0 = OR.0 | OR.1)
+#[derive(Debug)]
 pub struct OR<T, U>(pub T, pub U)
 where
     T: Write<u8> + Read<u8>,

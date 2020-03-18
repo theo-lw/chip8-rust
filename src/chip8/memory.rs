@@ -22,7 +22,7 @@ impl Memory {
 }
 
 /// Maximum size of the RAM in Chip-8
-const MAX_SIZE: usize = 4096;
+pub const MAX_SIZE: usize = 4096;
 
 /// The starting index of a Chip-8 program
 pub const PROGRAM_START: usize = 512;

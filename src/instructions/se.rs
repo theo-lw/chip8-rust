@@ -2,6 +2,7 @@ use super::{Instruction, State};
 use crate::variables::Read;
 
 /// Represents the SE instruction (skip the next instruction if SE.0 == SE.1)
+#[derive(Debug)]
 pub struct SE<T: Read<u8>, U: Read<u8>>(pub T, pub U);
 
 impl<T: Read<u8>, U: Read<u8>> Instruction for SE<T, U> {

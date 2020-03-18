@@ -1,5 +1,7 @@
 use super::{Read, State};
 
+/// Represents the location of the sprite for F.0
+#[derive(Debug)]
 pub struct F<T>(pub T)
 where
     T: Read<u8>;

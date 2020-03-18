@@ -1,5 +1,5 @@
 /// Struct representing the stack of a chip-8 machine
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Stack {
     stack: [usize; 16],
     stack_pointer: usize,
@@ -34,6 +34,7 @@ impl Stack {
 
     /// Returns the value on the top of the stack if is not empty
     /// Otherwise, it returns none
+    #[cfg(test)]
     pub fn top(&self) -> Option<usize> {
         if self.stack_pointer == 0 {
             return None;
