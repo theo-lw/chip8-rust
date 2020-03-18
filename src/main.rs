@@ -23,7 +23,8 @@ fn main() {
         .args_from_usage(
             "<PROGRAM>          'Set the file containing the chip8 program'
             -c, --config=[FILE] 'Use a custom config.json file'
-            -d, --debug         'Print debugging information'",
+            -d, --debug         'Print debugging information'
+            -s, --step          'Step through instructions one by one (press the key mapped to one to quit)'",
         )
         .get_matches();
 
@@ -57,7 +58,7 @@ fn main() {
     let mut canvas = window.into_canvas().present_vsync().build().unwrap();
     let sdl_display_observer = move |event: DisplayEvent| match event {
         DisplayEvent::XOR(x, y, active) => {
-            if active {
+            if active == 1 {
                 canvas.set_draw_color(active_color);
             } else {
                 canvas.set_draw_color(inactive_color);
@@ -92,11 +93,11 @@ fn main() {
     };
 
     // Run emulator
-    state.display.clear();
-    while state.program_counter + 1 < chip8::memory::MAX_SIZE {
+    'running: while state.program_counter + 1 < chip8::memory::MAX_SIZE {
         if state.keyboard.is_quit() {
             break;
         }
+        
         for _ in 0..config.ticks_per_frame {
             let pc: usize = state.program_counter;
             if matches.is_present("debug") {
@@ -104,6 +105,10 @@ fn main() {
                 println!("{:?}", state.stack);
                 println!("{:?}", state.registers);
                 println!("{:?}", state.timers);
+                println!("Display:");
+                for row in state.display.pixels.iter() {
+                    println!("{:?}", &row[..]);
+                }
             }
             let bytes: (u8, u8) = (state.memory.ram[pc], state.memory.ram[pc + 1]);
             let instruction: Box<dyn Instruction> = instructions::parse(bytes).unwrap();
@@ -116,6 +121,9 @@ fn main() {
             }
             instruction.execute(&mut state);
             state.program_counter += 2;
+            if matches.is_present("step") && state.keyboard.wait_for_key_press() == 1 {
+                break 'running;
+            }
         }
         state.display.present();
         state.timers.decrement_timers();

@@ -113,9 +113,9 @@ impl ColorConfig {
     /// Creates a black color config
     fn black() -> Self {
         ColorConfig {
-            r: u8::max_value(),
-            g: u8::max_value(),
-            b: u8::max_value(),
+            r: u8::min_value(),
+            g: u8::min_value(),
+            b: u8::min_value(),
         }
     }
 }

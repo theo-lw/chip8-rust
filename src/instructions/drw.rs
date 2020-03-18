@@ -19,19 +19,17 @@ where
     fn execute(&self, state: &mut State) {
         let x = self.0.read(state);
         let y = self.1.read(state);
-        let mut vf = false;
+        let mut vf = 0;
         for i in 0..self.2.read(state) {
             let byte: u8 = state.memory.ram[usize::from(state.registers.i_register) + i];
             for j in 0..8 {
                 let bit = (byte & (1 << (7 - j))) >> (7 - j);
-                vf |= state.display.xor(
-                    (x + j) % Display::WIDTH,
-                    (y + i) % Display::HEIGHT,
-                    bit != 0,
-                );
+                vf |= state
+                    .display
+                    .xor((x + j) % Display::WIDTH, (y + i) % Display::HEIGHT, bit);
             }
         }
-        state.registers.v_registers[0xF] = u8::from(vf);
+        state.registers.v_registers[0xF] = vf;
     }
 }
 
@@ -41,17 +39,19 @@ mod tests {
     use crate::variables::{nibble::B4, vregister::V};
 
     #[test]
-    fn test_drw_no_collision() {
+    fn test_drw() {
         let mut state = State::mock(&[]);
+        state.display.pixels[0][0] = 1;
+        state.display.pixels[1][1] = 1;
         let drw = DRW(V(B4(0)), V(B4(1)), B4(5));
         drw.execute(&mut state);
-        assert_eq!(state.registers.v_registers[0xF], 0);
+        assert_eq!(state.registers.v_registers[0xF], 1);
         let image = [
-            [true, true, true, true, false, false, false, false],
-            [true, false, false, true, false, false, false, false],
-            [true, false, false, true, false, false, false, false],
-            [true, false, false, true, false, false, false, false],
-            [true, true, true, true, false, false, false, false],
+            [0, 1, 1, 1, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0, 0],
+            [1, 1, 1, 1, 0, 0, 0, 0],
         ];
         for i in 0..5 {
             for j in 0..8 {
