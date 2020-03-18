@@ -1,7 +1,7 @@
 {
     "ticks_per_frame": 9,
     "frames_per_second": 60,
-    "pixel_size": 10,
+    "pixel_size": 20,
     "active_color": [63, 191, 127, 1],
     "inactive_color": [38, 114, 76, 1],
     "keyboard": {}
