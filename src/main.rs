@@ -28,7 +28,7 @@ fn main() {
         .about("A chip8 emulator")
         .args_from_usage(
             "<PROGRAM>          'Set the file containing the chip8 program'
-            -c, --config=[FILE] 'Use a custom config.json file'
+            -c, --config=[FILE] 'Apply settings from a config.json file'
             -d, --debug         'Print debugging information'
             -s, --step          'Step through instructions one by one (press the key mapped to one to quit)'",
         )
