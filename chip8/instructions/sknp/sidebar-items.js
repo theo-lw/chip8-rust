@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SKNP","Represents the SKNP instruction (skips next instruction if the key corresponding to SKNP.0 is not pressed)"]]});

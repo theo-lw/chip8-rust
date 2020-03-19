@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_SIZE","Maximum size of the RAM in Chip-8"],["PROGRAM_START","The starting index of a Chip-8 program"],["SPRITES","The sprites stored in Chip-8 memory"]],"struct":[["Memory","Represents the RAM in Chip-8"]]});

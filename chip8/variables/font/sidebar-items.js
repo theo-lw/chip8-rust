@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["F","Represents the location of the sprite for F.0"]]});

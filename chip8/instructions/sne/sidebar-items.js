@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SNE","Represents the SNE instruction (skip the next instruction if SNE.0 != SNE.1)"]]});

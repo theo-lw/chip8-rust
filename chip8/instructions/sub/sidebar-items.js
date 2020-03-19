@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SUB","Represents the SUB instruction (sets SUB.0 = SUB.0 + SUB.1) Note that this does NOT set any flags on integer overflow"],["SUBN","Represents the SUB instruction (sets SUB.0 = SUB.0 + SUB.1, sets VF = carry). This is similar to the SUB struct. The difference is in how they handle integer overflow"]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["JP","Represents the JP instruction (jump to the location at JP.0 + JP.1)"]]});

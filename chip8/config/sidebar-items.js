@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Color",""],["_IMPL_DESERIALIZE_FOR_Config",""]],"struct":[["Color",""],["Config","Represents the JSON config file"]]});

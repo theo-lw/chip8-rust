@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Registers","Struct representing the registers of a chip-8 machine"]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["V","Struct representing the contents at a v-register There are only 16 v-registers, numbered from 0..16 It is expected that this struct is constructed with a value that returns a number in the range 0..16 when read."]]});

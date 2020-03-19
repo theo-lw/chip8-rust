@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["bcd",""],["byte",""],["delay_timer",""],["font",""],["iregister",""],["key",""],["memory_at",""],["nibble",""],["range",""],["sound_timer",""],["tribble",""],["vregister",""]],"trait":[["Read","Trait for variables that can be read from chip-8's state"],["Write","Trait for variables that can be written to chip-8's state"]]});

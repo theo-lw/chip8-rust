@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["B8","Convenience class that represents an unsigned 8-bit number (aka, a byte) First argument should be the upper half of the byte, the second should be the lower half"]]});

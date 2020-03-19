@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["B12","Struct that represents a 12-bit unsigned number (aka, a tribble)"]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["B4","Struct that represents an unsigned 4-bit number (aka, nibble)"]]});

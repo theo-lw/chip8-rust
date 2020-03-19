@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["K","Represents the next key press"]]});
