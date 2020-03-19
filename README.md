@@ -66,7 +66,8 @@ Settings such as pixel colors and the keyboard mapping can be modified by provid
 {
     "ticks_per_frame": 9, // The number of Chip-8 opcodes executed per frame. Default: 9.
     "frames_per_second": 60, // The maximum number of frames rendered per second. Default: 60
-    "pixel_size": 20, // The sidelength of a 'pixel' on the Chip-8 display (measured in actual pixels).                      // Default: 10
+    "pixel_size": 20, // The sidelength of a 'pixel' on the Chip-8 display (measured in actual pixels).
+                      // Default: 10
     "active_color": [63, 191, 127, 1], // The RBGA color of active pixels.
                                        // The the first element is R, the second is B, and so on.
                                        // Default: [255, 255, 255, 255]
